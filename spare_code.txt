@@ -1,0 +1,77 @@
+Part of my first attempt:
+
+(function() {
+  'use strict';
+
+  function applyMonospace() {
+    document.querySelectorAll("div").forEach(x => {
+        if (x.innerHTML) {
+            x.innerHTML = x.innerHTML.replace(/```([\s\S]*?)```/g, '<pre>$1</pre>');
+        }
+    });
+
+    document.addel
+
+  }
+
+  // Run once the page loads
+  applyMonospace();
+
+  // Optional: observe for live changes (if notes update dynamically)
+  //const observer = new MutationObserver(applyMonospace);
+  //observer.observe(document.body, { childList: true, subtree: true });
+})();
+
+
+
+
+
+A previous attempt where I was going to try putting monospace blocks in-line.
+It works but Keep locks up if you modify the note content like this.
+
+(function() {
+  // --- Create the box element ---
+  const box = document.createElement('div');
+  box.className = 'floating-box';
+  box.innerHTML = `
+    <h3>Floating Box</h3>
+    <p>This box stays above the page.</p>
+  `;
+
+  // --- Add CSS styles dynamically ---
+  const style = document.createElement('style');
+  style.textContent = `
+    .floating-box {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 9999;
+      max-width: 300px;
+      font-family: sans-serif;
+    }
+  `;
+
+  // --- Inject into the page ---
+  document.head.appendChild(style);
+  document.body.appendChild(box);
+
+
+  // Search the page for ```. Need to store all content after, until another ``` is seen.
+  // Only use the first instance seen. I'll need all eventually though
+
+  // Store any innerHTML seen in that span
+
+  // Add it to my floating box in monospace format
+
+
+  document.querySelectorAll("div").forEach(x => {
+    if (x.innerHTML) {
+      x.innerHTML = x.innerHTML.replace(/```([\s\S]*?)```/g, '<pre>$1</pre>');
+    }
+  });
+})();

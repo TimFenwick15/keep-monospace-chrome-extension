@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Monospace Notes Helper",
+  "version": "1.0",
+  "description": "Adds monospace formatting to ``` blocks in my notes app.",
+  "content_scripts": [
+    {
+      "matches": ["https://keep.google.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "permissions": []
+}
