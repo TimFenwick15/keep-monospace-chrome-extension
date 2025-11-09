@@ -50,10 +50,20 @@
     .floating-box p {
       margin: 10px 12px 0 12px;
     }
+    .box-content {
+      max-height: 80vh;
+      overflow-y: auto;
+      overflow-x: auto;
+    }
   `;
+
+  const boxContent = document.createElement('div')
+  boxContent.className = "box-content"
 
   document.head.appendChild(style);
   document.body.appendChild(box);
+  box.appendChild(boxContent)
+
 
   // --- Close button ---
   box.querySelector('#closeBox').addEventListener('click', () => box.remove());
@@ -126,7 +136,7 @@
     });
 
     // Remove all pre and hr tags we previously added to box
-    box.querySelectorAll("pre, hr").forEach(x => {
+    boxContent.querySelectorAll("pre, hr").forEach(x => {
       x.remove()
     })
 
@@ -137,8 +147,8 @@
         let hr = document.createElement("hr")
         let pre = document.createElement("pre")
         pre.textContent += x.join("\n")
-        box.appendChild(pre)
-        box.appendChild(hr)
+        boxContent.appendChild(pre)
+        boxContent.appendChild(hr)
       })
       box.style.display = "block"
     }

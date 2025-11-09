@@ -44,9 +44,14 @@ The script runs on keyup. This will probably change because it means the code bl
     }
   })
 ```
-- Show multiple code blocks? (The skip logic will conflict with this initially)
 - Backtick blocks will never mismatch because the hidden note will have the same number as the foreground note, always giving an even result
     - This means the text outside the block will be selected and the box will fill with note text
     - For now I'm setting a max length to avoid the issue
-- (Bug) If there are two code blocks on screen, they do show, but new-lines don't work. Extra blocks will be repeated because of the skip code assuming only one block
+    - I think I can identify text from the background notes. I could use this to reject background backticks
 - (Optional) Pack my extension?
+
+### Done
+- Show multiple code blocks? (The skip logic will conflict with this initially)
+- (Bug) If there are two code blocks on screen, they do show, but new-lines don't work. Extra blocks will be repeated because of the skip code assuming only one block
+    - This went away in the current code version able to show multiple code blocks
+- Text horizontally overflows and grows the box too tall vertically. Make the box scrollable. Have also made box horizontally scrollable, will change if this is annoying
