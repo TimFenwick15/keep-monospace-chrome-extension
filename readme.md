@@ -15,7 +15,7 @@ Instead I've added a floating box which will display any detected code blocks se
 ## How it works
 Keep contains a lot of nested divs with obfuscated class names. There isn't anything in the DOM I feel safe using to identify a note.
 
-Each line of the text of the note is a p tag that contains a span tag. So I'm searching for these as a way to get the note text.
+Each line of the text of the note is a `p` tag that contains a `span` tag. So I'm searching for these as a way to get the note text.
 
 When you click a note, it shows in the foreground, but you can still see notes in the background. When you search note text, some of the text shows in these background notes, so you might get a duplicate of your code block. For now I'm skipping the first code block and not putting any more on screen so the one I want cleanly displays. Eventually I want to handle this better.
 

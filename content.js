@@ -91,16 +91,19 @@
   function getCodeBlocks() {
     let blocks = []    // A list code blocks. Each code block is a list of lines of text
     let inside = false // true when we're reading lines within a code block. Else false
-    let skip = true    // Skip the first block to avoid displaying text from hidden note. This isn't a good solution, eventually I'll want to show more than one code block
     let found = false  // Don't show the code block box if we didn't find a code block
     let count = 0      // If there are too many lines, asume something has gone wrong and clear the text
 
     // All note content is contained in a span that descends from a p. Read all note text enclosed in triple-backticks from these spans
     document.querySelectorAll("p > span").forEach(x => {
-      if (x.innerHTML.includes("```")) {
+      // Looking for a way to distinguish between content from the background invisible notes and the noes on screen.
+      // When I read attributes, the length of background tags is 2, and the length of foreground tags is 3.
+      // So if length is 2, we shouldn't display this tag.
+      // This relies on a non-specific detail of the page so will be likely to break in the future.
+      if (x.attributes.length != 2) {
+        if (x.innerHTML.includes("```")) {
           if (inside) {
             inside = false
-            skip = false
             found = true
             count = 0
           }
@@ -108,33 +111,35 @@
             blocks.push([])
             inside = true
           }
-      }
-      else if (inside) {
-        
-        if (count++ > 10) {
-            blocks.at(-1).length = 0 // This is a hack to clear the list. x = [] doesn't work when we access the list using .at()
         }
-        else if (!skip) {
-          const parser = new DOMParser()
-          blocks.at(-1).push(parser.parseFromString(x.innerHTML, "text/html").documentElement.textContent)
+        else if (inside) {
+          if (count++ > 10) {
+            blocks.pop()
+            inside = false
+          }
+          else {
+            const parser = new DOMParser()
+            blocks.at(-1).push(parser.parseFromString(x.innerHTML, "text/html").documentElement.textContent)
+          }
         }
       }
     });
 
-    // Remove all pre tags we previously added to box
-    box.querySelectorAll("pre").forEach(x => {
-        console.log("Removing")
-        x.remove()
+    // Remove all pre and hr tags we previously added to box
+    box.querySelectorAll("pre, hr").forEach(x => {
+      x.remove()
     })
 
     if (found && !inside) {
       // Place all copied note text in box in a monospace font
-      let output = document.createElement("pre");
+      let output = []
       blocks.forEach(x => {
-        output.textContent += x.join("\n")
+        let hr = document.createElement("hr")
+        let pre = document.createElement("pre")
+        pre.textContent += x.join("\n")
+        box.appendChild(pre)
+        box.appendChild(hr)
       })
-      output.textContent += "\n\n"
-      box.appendChild(output)
       box.style.display = "block"
     }
     else {
